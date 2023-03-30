@@ -123,6 +123,8 @@ Object.defineProperty(internals.ReactCurrentOwner, "current", {
 		return currentOwner;
 	},
 	set(owner) {
+		// TODO: Doesn't work in production build of React :( React only sets the
+		// current owner for class components in the production build.
 		currentOwner = owner;
 		if (currentOwner) lastOwner = currentOwner;
 	},
@@ -143,6 +145,11 @@ Object.defineProperty(internals.ReactCurrentDispatcher, "current", {
 			// prevent re-injecting useReducer when the Dispatcher
 			// context changes to run the reducer callback:
 			lock = true;
+			// TODO: Downside: this will add a useReducer call after every usage of
+			// useReducer, useState, or useMemo hook in components since these hooks
+			// change the Dispatcher in development mode. Could work around by
+			// specifically detecting the ContextOnlyDispatcher instead of any
+			// erroring dispatcher.
 			const rerender = api.useReducer(UPDATE, {})[1];
 			lock = false;
 
