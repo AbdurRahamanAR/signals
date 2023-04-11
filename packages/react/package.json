@@ -37,6 +37,11 @@
 	"scripts": {
 		"prepublishOnly": "cd ../.. && pnpm build:react"
 	},
+	"files": [
+		"src",
+		"dist",
+		"CHANGELOG.md"
+	],
 	"dependencies": {
 		"@preact/signals-core": "workspace:^1.3.0",
 		"use-sync-external-store": "^1.2.0"
